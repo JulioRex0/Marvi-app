@@ -66,10 +66,10 @@ const PRODUCTOS: Producto[] = [
     },
     {
         id: 6,
-        nombre: "Jabon de barra Zote 500g",
+        nombre: "Jabon de barra Zote blanco 500g",
         descripcion: "Jabón en barra Zote, ideal para lavado a mano y tratamiento de manchas.",
         precio: 39.99,
-        imagen: require("@/assets/images/zote.png"),
+        imagen: require("@/assets/images/zote chido.png"),
         categoria: "Barra",
         stock: 22,
     },

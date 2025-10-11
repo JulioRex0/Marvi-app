@@ -1,8 +1,8 @@
 // Importaciones necesarias para la pantalla principal
 import { Image } from "expo-image";
 import { router } from "expo-router"; // Importar router para navegación
-import { useState } from "react";
-import { Alert, Keyboard, KeyboardAvoidingView, Platform, StyleSheet, TextInput, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
+import { useRef, useState } from "react";
+import { Alert, KeyboardAvoidingView, Platform, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 // Importación de componentes personalizados
 import ParallaxScrollView from "@/components/parallax-scroll-view"; // Vista con efecto parallax
 import { ThemedText } from "@/components/themed-text"; // Texto que se adapta al tema
@@ -11,11 +11,15 @@ import { ThemedView } from "@/components/themed-view"; // Vista que se adapta al
 export default function HomeScreen() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const emailRef = useRef<TextInput | null>(null);
+    const passwordRef = useRef<TextInput | null>(null);
 
     // Usuario de prueba para inicio de sesión
     const testUser = {
         email: "admin@marvi.com",
         password: "123456",
+        email1: "ad@marvi.com",
+        password1: "1",
     };
 
     // Función para manejar el inicio de sesión
@@ -80,26 +84,24 @@ export default function HomeScreen() {
         <ParallaxScrollView
             // Colores de fondo del header según el tema (claro/oscuro)
             headerBackgroundColor={{ light: "#f7f7f7ff", dark: "#ffffffff" }}
-            headerImage={<Image source={require("@/assets/images/MARVI LOGO.png")} style={styles.reactLogo} />}
+            headerImage={<Image source={require("@/assets/images/MARVI LOGO.png")} style={styles.reactLogo} pointerEvents="none" />}
         >
             <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={keyboardVerticalOffset} style={{ flex: 1 }}>
-                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    {/* Apartado para inicio de sesión */}
-                    <ThemedView style={styles.emailContainer}>
-                        <ThemedText type="title" style={styles.emailTitle}>
-                            Inicio de sesión
-                        </ThemedText>
-                        <ThemedText style={styles.emailDescription}>Por favor ingresa tu correo electrónico y contraseña</ThemedText>
+                {/* Apartado para inicio de sesión */}
+                <ThemedView style={styles.emailContainer}>
+                    <ThemedText type="title" style={styles.emailTitle}>
+                        Inicio de sesión
+                    </ThemedText>
+                    <ThemedText style={styles.emailDescription}>Por favor ingresa tu correo electrónico y contraseña</ThemedText>
 
-                        <TextInput style={styles.emailInput} placeholder="Ingresa tu correo electrónico" placeholderTextColor="#999" value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" autoCorrect={false} />
-                        <TextInput style={styles.emailInput} placeholder="Ingresa tu contraseña" placeholderTextColor="#999" value={password} onChangeText={setPassword} keyboardType="default" autoCapitalize="none" autoCorrect={false} secureTextEntry />
+                    <TextInput ref={emailRef} style={styles.emailInput} placeholder="Ingresa tu correo electrónico" placeholderTextColor="#999" value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" autoCorrect={false} onTouchStart={() => emailRef.current?.focus()} />
+                    <TextInput ref={passwordRef} style={styles.emailInput} placeholder="Ingresa tu contraseña" placeholderTextColor="#999" value={password} onChangeText={setPassword} keyboardType="default" autoCapitalize="none" autoCorrect={false} secureTextEntry onTouchStart={() => passwordRef.current?.focus()} />
 
-                        {/* Botón para iniciar sesión */}
-                        <TouchableOpacity style={styles.submitButton} onPress={handleLogin}>
-                            <ThemedText style={styles.submitButtonText}>Iniciar sesión</ThemedText>
-                        </TouchableOpacity>
-                    </ThemedView>
-                </TouchableWithoutFeedback>
+                    {/* Botón para iniciar sesión */}
+                    <TouchableOpacity style={styles.submitButton} onPress={handleLogin}>
+                        <ThemedText style={styles.submitButtonText}>Iniciar sesión</ThemedText>
+                    </TouchableOpacity>
+                </ThemedView>
             </KeyboardAvoidingView>
         </ParallaxScrollView>
     );

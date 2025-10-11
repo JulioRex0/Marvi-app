@@ -1,6 +1,6 @@
 // Importaciones necesarias para la pantalla principal
 import { Image } from "expo-image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Alert, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 // Importación de componentes personalizados
 import ParallaxScrollView from "@/components/parallax-scroll-view"; // Vista con efecto parallax
@@ -10,6 +10,8 @@ import { ThemedView } from "@/components/themed-view"; // Vista que se adapta al
 export default function HomeScreen() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const emailRef = useRef<TextInput | null>(null);
+    const passwordRef = useRef<TextInput | null>(null);
 
     // Función para manejar el inicio de sesión
     const handleLogin = () => {
@@ -48,7 +50,7 @@ export default function HomeScreen() {
         <ParallaxScrollView
             // Colores de fondo del header según el tema (claro/oscuro)
             headerBackgroundColor={{ light: "#f7f7f7ff", dark: "#ffffffff" }}
-            headerImage={<Image source={require("@/assets/images/MARVI LOGO.png")} style={styles.reactLogo} />}
+            headerImage={<Image source={require("@/assets/images/MARVI LOGO.png")} style={styles.reactLogo} pointerEvents="none" />}
         >
             {/* Apartado para añadir correo electrónico */}
             <ThemedView style={styles.emailContainer}>
@@ -57,8 +59,8 @@ export default function HomeScreen() {
                 </ThemedText>
                 <ThemedText style={styles.emailDescription}>Por favor ingresa tu correo electrónico y contraseña</ThemedText>
 
-                <TextInput style={styles.emailInput} placeholder="Ingresa tu correo electrónico" placeholderTextColor="#999" value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" autoCorrect={false} />
-                <TextInput style={styles.emailInput} placeholder="Ingresa tu contraseña" placeholderTextColor="#999" value={password} onChangeText={setPassword} keyboardType="default" autoCapitalize="none" autoCorrect={false} secureTextEntry />
+                <TextInput ref={emailRef} style={styles.emailInput} placeholder="Ingresa tu correo electrónico" placeholderTextColor="#999" value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" autoCorrect={false} onTouchStart={() => emailRef.current?.focus()} />
+                <TextInput ref={passwordRef} style={styles.emailInput} placeholder="Ingresa tu contraseña" placeholderTextColor="#999" value={password} onChangeText={setPassword} keyboardType="default" autoCapitalize="none" autoCorrect={false} secureTextEntry onTouchStart={() => passwordRef.current?.focus()} />
 
                 {/* Botón para iniciar sesión */}
                 <TouchableOpacity style={styles.submitButton} onPress={handleLogin}>
