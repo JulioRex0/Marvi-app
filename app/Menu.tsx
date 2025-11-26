@@ -144,11 +144,13 @@ export default function Menu() {
 
     const Header = ({ title }: { title: string }) => (
         <View style={styles.header}>
-            <Image source={require("@/assets/images/icon.png")} style={styles.logo} />
+            <TouchableOpacity onPress={() => router.push("/Profile")} style={styles.profileIcon}>
+                <MaterialCommunityIcons name="account-circle" size={28} color="#fff" />
+            </TouchableOpacity>
             <Text style={styles.headerTitle}>{title}</Text>
             <TouchableOpacity onPress={() => setVistaActual("carrito")} style={styles.cartIcon}>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <MaterialCommunityIcons name="cart-outline" size={20} color="#fff" />
+                    <MaterialCommunityIcons name="cart-outline" size={28} color="#fff" />
                     <Text style={[styles.cartIconText, { marginLeft: 6 }]}>({carrito.length})</Text>
                 </View>
             </TouchableOpacity>
@@ -492,6 +494,12 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     cartIcon: {
+        marginTop: 15,
+        padding: 8,
+        backgroundColor: "rgba(255,255,255,0.2)",
+        borderRadius: 8,
+    },
+    profileIcon: {
         marginTop: 15,
         padding: 8,
         backgroundColor: "rgba(255,255,255,0.2)",
